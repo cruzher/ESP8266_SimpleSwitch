@@ -9,6 +9,7 @@
 #define MQTT_CLIENTID        "nodeXXXX"
 #define MQTT_USERNAME        "user"
 #define MQTT_PASSWPRD        "pass"
+#define LED_PIN              2
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -50,6 +51,7 @@ void reconnect() {
 }
 
 void setup() {
+  pinMode(OUTPUT, LED_PIN);
   Serial.begin(115200);
   setup_wifi();
   client.setServer(MQTT_HOST, 1883); 
@@ -63,6 +65,9 @@ void setup() {
   Serial.print("Publish message: ");
   Serial.println(msg);
   client.publish(MQTT_TOPIC, msg);
+  digitalWrite(LED_PIN, HIGH);
+  delay(1000);
+  digitalWrite(LED_PIN, LOW);
 }
 
 void loop() {}
